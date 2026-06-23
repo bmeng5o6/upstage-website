@@ -1,13 +1,23 @@
 import Link from "next/link";
+import { getSettings } from "@/lib/settings";
 
-export default function Footer() {
+export default async function Footer() {
+  const s = await getSettings();
+
+  const socials = [
+    { label: "Instagram", url: s.instagram_url },
+    { label: "YouTube", url: s.youtube_url },
+    { label: "TikTok", url: s.tiktok_url },
+    { label: "Spotify", url: s.spotify_url },
+  ].filter((l) => l.url);
+
   return (
     <footer className="bg-navy text-white mt-auto">
       <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="md:col-span-1">
           <p className="text-xl font-bold tracking-widest uppercase">Upstage</p>
           <p className="text-sm text-white/60 mt-1">A Cappella</p>
-          <p className="text-sm text-white/40 mt-2">Cornell University</p>
+          <p className="text-sm text-white/40 mt-2">University of Pennsylvania</p>
         </div>
 
         <div>
@@ -27,13 +37,19 @@ export default function Footer() {
           <h4 className="text-xs font-semibold uppercase tracking-widest text-white/50 mb-4">
             Follow Us
           </h4>
-          <ul className="space-y-2 text-sm text-white/80">
-            {/* Replace # with your real social URLs */}
-            <li><a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener" className="hover:text-white transition-colors">Instagram</a></li>
-            <li><a href="https://youtube.com/@YOUR_HANDLE" target="_blank" rel="noopener" className="hover:text-white transition-colors">YouTube</a></li>
-            <li><a href="https://tiktok.com/@YOUR_HANDLE" target="_blank" rel="noopener" className="hover:text-white transition-colors">TikTok</a></li>
-            <li><a href="https://open.spotify.com/artist/YOUR_ID" target="_blank" rel="noopener" className="hover:text-white transition-colors">Spotify</a></li>
-          </ul>
+          {socials.length > 0 ? (
+            <ul className="space-y-2 text-sm text-white/80">
+              {socials.map((l) => (
+                <li key={l.label}>
+                  <a href={l.url} target="_blank" rel="noopener" className="hover:text-white transition-colors">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-white/30">Add social links in Admin → Settings</p>
+          )}
         </div>
 
         <div>
@@ -42,10 +58,10 @@ export default function Footer() {
           </h4>
           <p className="text-sm text-white/60 mb-1">Booking &amp; inquiries:</p>
           <a
-            href="mailto:upstage@cornell.edu"
+            href={`mailto:${s.contact_email}`}
             className="text-sm text-white hover:text-white/70 transition-colors"
           >
-            upstage@cornell.edu
+            {s.contact_email}
           </a>
         </div>
       </div>

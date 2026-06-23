@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Member } from "@/data/members";
+import type { Member } from "@/lib/types";
 
 const PART_COLORS: Record<string, string> = {
   Soprano: "bg-pink-50 text-pink-700",
@@ -17,9 +17,9 @@ export default function MemberCard({ member }: { member: Member }) {
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
       {/* Photo */}
       <div className="aspect-[4/5] bg-surface relative overflow-hidden">
-        {member.photo ? (
+        {member.photo_url ? (
           <Image
-            src={member.photo}
+            src={member.photo_url}
             alt={member.name}
             fill
             className="object-cover object-top"

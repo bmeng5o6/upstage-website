@@ -12,10 +12,10 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Upstage A Cappella",
   description:
-    "Cornell University's premier a cappella group. All voice, all heart, no instruments needed.",
+    "University of Pennsylvania's premier a cappella group. All voice, all heart, no instruments needed.",
   openGraph: {
     title: "Upstage A Cappella",
-    description: "Cornell University's premier a cappella group.",
+    description: "University of Pennsylvania's premier a cappella group.",
     type: "website",
   },
 };
