@@ -1,65 +1,84 @@
-import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import ShowCard from "@/components/ShowCard";
+import { shows } from "@/data/shows";
 
 export default function Home() {
+  const upcomingShows = shows.slice(0, 3);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <Navbar />
+
+      <main className="flex-1">
+        <Hero />
+
+        {/* ABOUT */}
+        <section id="about" className="py-24 px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
+                Who We Are
+              </p>
+              <h2 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-6">
+                More than music.
+                <br />A family.
+              </h2>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                Upstage A Cappella is Cornell University&apos;s premier co-ed a
+                cappella group. Founded in [year], we&apos;ve been bringing vocal
+                harmony to stages across campus and beyond — blending
+                contemporary pop, R&amp;B, and original arrangements performed
+                entirely with the human voice.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                We audition each semester and welcome singers of all
+                backgrounds. Our shows sell out fast — follow us on social
+                media to stay in the loop.
+              </p>
+
+              <div className="flex gap-10">
+                {[
+                  { number: "XX", label: "Members" },
+                  { number: "20XX", label: "Founded" },
+                  { number: "XX+", label: "Shows" },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <p className="text-3xl font-bold text-navy">{s.number}</p>
+                    <p className="text-sm text-muted mt-0.5">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Replace with a real <Image> once you have a group photo */}
+            <div className="rounded-2xl bg-surface aspect-[4/3] flex flex-col items-center justify-center text-muted text-sm border border-gray-200 gap-1">
+              <span>Drop your group photo here</span>
+              <span className="text-xs">public/photos/group.jpg</span>
+            </div>
+          </div>
+        </section>
+
+        {/* UPCOMING SHOWS */}
+        <section id="shows" className="py-24 px-6 bg-surface">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
+              Upcoming Shows
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-12">
+              Come see us live.
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {upcomingShows.map((show, i) => (
+                <ShowCard key={show.id} show={show} featured={i === 0} />
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
-    </div>
+
+      <Footer />
+    </>
   );
 }
