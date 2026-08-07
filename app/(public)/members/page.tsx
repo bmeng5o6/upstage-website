@@ -14,8 +14,8 @@ export default async function MembersPage() {
   const members = result.data as Member[] | null;
 
   return (
-    <div className="pt-24">
-      <div className="max-w-6xl mx-auto px-6 py-16">
+    <div className="pt-32 md:pt-40 pb-24 md:pb-32">
+      <div className="max-w-6xl mx-auto px-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
           The Group
         </p>

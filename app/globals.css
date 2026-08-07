@@ -15,6 +15,34 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Anchor targets stop below the fixed 4rem navbar instead of under it */
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* Like animate-bounce, but rests for the first half of each cycle */
+@keyframes bounce-pause {
+  0%,
+  55%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  65% {
+    transform: translateY(-30%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  75% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(-15%);
+  }
+  95% {
+    transform: translateY(0);
+  }
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);

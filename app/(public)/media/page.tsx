@@ -14,8 +14,8 @@ export default async function MediaPage() {
   const videos = result.data as Video[] | null;
 
   return (
-    <div className="pt-24">
-      <div className="max-w-6xl mx-auto px-6 py-16">
+    <div className="pt-32 md:pt-40 pb-24 md:pb-32">
+      <div className="max-w-6xl mx-auto px-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
           Media
         </p>
@@ -27,13 +27,13 @@ export default async function MediaPage() {
           Performance Videos
         </h2>
         {videos && videos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {videos.map((v) => (
               <VideoCard key={v.id} video={v} />
             ))}
           </div>
         ) : (
-          <p className="text-muted mb-20">Videos coming soon!</p>
+          <p className="text-muted mb-16">Videos coming soon!</p>
         )}
 
         <h2 className="text-xl font-semibold text-navy mb-6">Gallery</h2>

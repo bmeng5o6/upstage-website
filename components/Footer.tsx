@@ -13,7 +13,7 @@ export default async function Footer() {
 
   return (
     <footer className="bg-navy text-white mt-auto">
-      <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="md:col-span-1">
           <p className="text-xl font-bold tracking-widest uppercase">Upstage</p>
           <p className="text-sm text-white/60 mt-1">A Cappella</p>
@@ -66,7 +66,7 @@ export default async function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 text-center py-5 text-xs text-white/30">
+      <div className="border-t border-white/10 text-center py-6 text-xs text-white/30">
         &copy; {new Date().getFullYear()} Upstage A Cappella. All rights reserved.
       </div>
     </footer>

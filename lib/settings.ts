@@ -4,15 +4,15 @@ import type { SiteSettings } from "@/lib/types";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   id: 1,
-  member_count: "XX",
-  show_count: "XX+",
+  member_count: "13",
+  show_count: "20+",
   about_description:
-    "Upstage A Cappella is the University of Pennsylvania's premier co-ed a cappella group. We've been bringing vocal harmony to stages across campus and beyond — blending contemporary pop, R&B, and original arrangements performed entirely with the human voice. We audition each semester and welcome singers of all backgrounds.",
-  hero_tagline: "All voice. All heart. No instruments needed.",
-  contact_email: "upstage@upenn.edu",
+    "Upstage A Cappella is the University of Pennsylvania's premier musical co-ed a cappella group. We perform original arrangements from musicals, shows, and movies. We audition each semester and welcome singers of all voices and backgrounds.",
+  hero_tagline: "",
+  contact_email: "upstage.upenn@gmail.com",
   venmo_handle: "@upstage-acappella",
-  instagram_url: "",
-  youtube_url: "",
+  instagram_url: "https://instagram.com/upstageacappella",
+  youtube_url: "https://www.youtube.com/@UpstageACappellaUPenn",
   tiktok_url: "",
   spotify_url: "",
 };

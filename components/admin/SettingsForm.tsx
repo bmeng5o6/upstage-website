@@ -107,7 +107,7 @@ export default function SettingsForm({
           <input
             value={form.hero_tagline}
             onChange={(e) => set("hero_tagline", e.target.value)}
-            placeholder="All voice. All heart. No instruments needed."
+            placeholder=""
             className={INPUT}
           />
         </Field>
@@ -120,7 +120,7 @@ export default function SettingsForm({
             type="email"
             value={form.contact_email}
             onChange={(e) => set("contact_email", e.target.value)}
-            placeholder="upstage@upenn.edu"
+            placeholder="upstage.upenn@gmail.com"
             className={INPUT}
           />
         </Field>
@@ -148,7 +148,7 @@ export default function SettingsForm({
           <input
             value={form.youtube_url}
             onChange={(e) => set("youtube_url", e.target.value)}
-            placeholder="https://youtube.com/@upstageacappella"
+            placeholder="https://www.youtube.com/@UpstageACappellaUPenn"
             className={INPUT}
           />
         </Field>

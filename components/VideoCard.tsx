@@ -13,7 +13,7 @@ export default function VideoCard({ video }: { video: Video }) {
           allowFullScreen
         />
       </div>
-      <div className="px-4 py-3">
+      <div className="p-5">
         <p className="font-semibold text-navy text-sm">{video.title}</p>
         <p className="text-xs text-muted mt-0.5">
           {video.show_name} · {video.year}

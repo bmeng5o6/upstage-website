@@ -230,7 +230,7 @@ export default function TicketForm() {
 
       <p className="text-xs text-center text-muted">
         Confirmed after payment via Venmo{" "}
-        <strong>@upstage-acappella</strong> or cash at the door.
+        <strong>@upstage-acappella</strong>{" "} or cash at the door.
         We&apos;ll follow up within 24 hours.
       </p>
     </form>

@@ -47,8 +47,14 @@ export default async function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 animate-bounce text-xl">
-        ↓
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+        <a
+          href="#about"
+          aria-label="Scroll to About"
+          className="block text-xl text-white/30 hover:text-white/70 transition-colors animate-[bounce-pause_3s_ease-in-out_infinite] motion-reduce:animate-none"
+        >
+          ↓
+        </a>
       </div>
     </section>
   );

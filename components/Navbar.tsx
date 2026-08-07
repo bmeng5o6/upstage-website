@@ -23,6 +23,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Next's Link won't re-scroll when the hash already matches the URL, so
+  // same-page anchors are scrolled by hand. Cross-page links fall through.
+  function handleHashClick(e: React.MouseEvent, href: string) {
+    const hashIndex = href.indexOf("#");
+    if (hashIndex === -1) return;
+    if (pathname !== (href.slice(0, hashIndex) || "/")) return;
+
+    e.preventDefault();
+    const id = href.slice(hashIndex + 1);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    window.history.replaceState(null, "", `#${id}`);
+  }
+
   const navBg =
     isHome && !scrolled
       ? "bg-transparent"
@@ -48,6 +61,7 @@ export default function Navbar() {
             <Link
               key={l.href}
               href={l.href}
+              onClick={(e) => handleHashClick(e, l.href)}
               className={`text-sm font-medium hover:opacity-70 transition-opacity ${textColor}`}
             >
               {l.label}
@@ -91,7 +105,10 @@ export default function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={(e) => {
+                setOpen(false);
+                handleHashClick(e, l.href);
+              }}
               className="text-navy font-medium text-base"
             >
               {l.label}
