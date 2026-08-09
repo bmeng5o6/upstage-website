@@ -8,7 +8,6 @@ export default function VideoCard({ video }: { video: Video }) {
           className="absolute inset-0 w-full h-full"
           src={`https://www.youtube.com/embed/${video.youtube_id}`}
           title={`${video.title} — ${video.show_name}`}
-          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
