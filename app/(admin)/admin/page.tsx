@@ -10,22 +10,30 @@ export const metadata = { title: "Dashboard — Upstage Admin" };
 export default async function AdminDashboard() {
   const supabase = await createClient();
 
-  const [showsResult, reservationsResult, membersResult] = supabase
-    ? await Promise.all([
-        supabase.from("shows").select("*").order("date", { ascending: true }),
-        supabase.from("reservations").select("*, shows(title, time)").order("created_at", { ascending: false }).limit(10),
-        supabase.from("members").select("*", { count: "exact", head: true }),
-      ])
-    : [{ data: null }, { data: null }, { count: null }];
+  const [showsResult, reservationsResult, allReservationsResult, membersResult] =
+    supabase
+      ? await Promise.all([
+          supabase.from("shows").select("*").order("date", { ascending: true }),
+          supabase.from("reservations").select("*, shows(title, time)").order("created_at", { ascending: false }).limit(10),
+          supabase.from("reservations").select("qty, status"),
+          supabase.from("members").select("*", { count: "exact", head: true }),
+        ])
+      : [{ data: null }, { data: null }, { data: null }, { count: null }];
 
   const shows = showsResult.data as Show[] | null;
   const reservations = reservationsResult.data as ReservationWithShow[] | null;
+  const allReservations = allReservationsResult.data as
+    | Pick<Reservation, "qty" | "status">[]
+    | null;
   const memberCount = membersResult.count;
 
   const totalTickets =
-    reservations
+    allReservations
       ?.filter((r) => r.status !== "cancelled")
       .reduce((sum, r) => sum + r.qty, 0) ?? 0;
+
+  const pendingCount =
+    allReservations?.filter((r) => r.status === "pending").length ?? 0;
 
   const upcomingShows = shows?.filter((s) => s.tickets_open) ?? [];
 
@@ -39,10 +47,7 @@ export default async function AdminDashboard() {
           { label: "Upcoming Shows", value: upcomingShows.length },
           { label: "Total Tickets Reserved", value: totalTickets },
           { label: "Members", value: memberCount ?? 0 },
-          {
-            label: "Pending Reservations",
-            value: reservations?.filter((r) => r.status === "pending").length ?? 0,
-          },
+          { label: "Pending Reservations", value: pendingCount },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-2xl border border-gray-200 p-5">
             <p className="text-3xl font-bold text-navy">{stat.value}</p>

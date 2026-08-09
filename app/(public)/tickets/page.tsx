@@ -9,11 +9,8 @@ export default function TicketsPage() {
   return (
     <div className="pt-32 md:pt-40 pb-24 md:pb-32">
       <div className="max-w-2xl mx-auto px-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
-          Ticketing
-        </p>
         <h1 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-3">
-          Reserve your spot.
+          See us live!
         </h1>
         <p className="text-gray-500 mb-10">
           Fill out the form and we&apos;ll confirm your reservation within 24

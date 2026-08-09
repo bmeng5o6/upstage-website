@@ -16,6 +16,7 @@ export default function TicketForm() {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [idempotencyKey, setIdempotencyKey] = useState(() => crypto.randomUUID());
 
   const supabase = createClient();
 
@@ -61,7 +62,7 @@ export default function TicketForm() {
     };
   }, [selectedShowId, shows]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!selectedShow) return;
     setFormState("submitting");
@@ -77,29 +78,23 @@ export default function TicketForm() {
       setFormState("error");
       return;
     }
-
-    const { error } = await supabase.from("reservations").insert({
-      show_id: selectedShow.id,
-      name: fd.get("name") as string,
-      email: fd.get("email") as string,
-      qty,
-      notes: (fd.get("notes") as string) || null,
-      status: "pending",
+    const { error } = await supabase.rpc("reserve_seats", {
+      p_show_id: selectedShow.id,
+      p_name: fd.get("name") as string,
+      p_email: fd.get("email") as string,
+      p_qty: qty,
+      p_notes: (fd.get("notes") as string) || null,
+      p_idempotency_key: idempotencyKey,
     });
 
     if (error) {
-      setErrorMsg("Something went wrong. Please try again or email us directly.");
+      setErrorMsg(error.message);
       setFormState("error");
       return;
     }
 
-    // Increment tickets_sold on the show
-    await supabase
-      .from("shows")
-      .update({ tickets_sold: selectedShow.tickets_sold + qty })
-      .eq("id", selectedShow.id);
-
     setFormState("success");
+    setIdempotencyKey(crypto.randomUUID());
     form.reset();
     setSelectedShowId("");
   }

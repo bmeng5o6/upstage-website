@@ -64,6 +64,10 @@ export default async function Home() {
             <p className="text-gray-600 leading-relaxed">
               This semester, we performed songs from The Greatest Showman, Phantom of the Opera, The Hunger Games, and more.
             </p>
+            <br />
+            <p className="text-gray-600 leading-relaxed">
+              Listen to an arrangement of ours here, or check out more on our YouTube channel!
+            </p>
           </div>
 
           <div className="relative w-full max-w-xl mx-auto lg:max-w-none rounded-2xl overflow-hidden aspect-video bg-surface border border-gray-200">

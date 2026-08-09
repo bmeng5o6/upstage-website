@@ -48,25 +48,35 @@ export default function SettingsForm({
   const [form, setForm] = useState(initialSettings);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
   const supabase = createClient();
 
   function set(key: keyof SiteSettings, value: string) {
     setForm((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
+    setErrorMsg("");
   }
 
   async function handleSave() {
     setSaving(true);
+    setErrorMsg("");
+
+    // The row always exists (seeded by the schema), so update it directly.
+    // upsert would need an INSERT policy on site_settings, which there isn't.
+    const { id: _id, ...fields } = form;
     const { error } = await supabase
       .from("site_settings")
-      .upsert({ ...form, id: 1 });
+      .update(fields)
+      .eq("id", 1);
 
     setSaving(false);
-    if (!error) {
-      setSaved(true);
-      router.refresh();
+    if (error) {
+      setErrorMsg(error.message);
+      return;
     }
+    setSaved(true);
+    router.refresh();
   }
 
   return (
@@ -182,6 +192,11 @@ export default function SettingsForm({
         {saved && (
           <span className="text-sm text-green-600 font-medium">
             ✓ Saved — changes are live on the site
+          </span>
+        )}
+        {errorMsg && (
+          <span className="text-sm text-red-600 font-medium">
+            Couldn&apos;t save: {errorMsg}
           </span>
         )}
       </div>

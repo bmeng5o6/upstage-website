@@ -1,5 +1,6 @@
 import { getSettings } from "@/lib/settings";
 import SettingsForm from "@/components/admin/SettingsForm";
+import PasswordForm from "@/components/admin/PasswordForm";
 
 export const metadata = { title: "Settings — Upstage Admin" };
 
@@ -13,6 +14,10 @@ export default async function SettingsPage() {
         Changes here update the public website instantly — no code needed.
       </p>
       <SettingsForm initialSettings={settings} />
+
+      <div className="mt-6">
+        <PasswordForm />
+      </div>
     </div>
   );
 }
