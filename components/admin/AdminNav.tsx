@@ -5,11 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: "▤" },
-  { href: "/admin/shows", label: "Shows", icon: "🎭" },
-  { href: "/admin/reservations", label: "Reservations", icon: "🎟" },
-  { href: "/admin/members", label: "Members", icon: "👥" },
-  { href: "/admin/settings", label: "Settings", icon: "⚙️" },
+  { href: "/admin", label: "Dashboard" },
+  { href: "/admin/shows", label: "Shows" },
+  { href: "/admin/reservations", label: "Reservations" },
+  { href: "/admin/members", label: "Members" },
+  { href: "/admin/settings", label: "Settings" },
 ];
 
 export default function AdminNav({ userEmail }: { userEmail: string }) {
@@ -46,7 +46,6 @@ export default function AdminNav({ userEmail }: { userEmail: string }) {
                   : "text-white/60 hover:text-white hover:bg-white/10"
               }`}
             >
-              <span className="text-base">{item.icon}</span>
               {item.label}
             </Link>
           );
@@ -56,7 +55,7 @@ export default function AdminNav({ userEmail }: { userEmail: string }) {
       <div className="px-4 py-4 border-t border-white/10">
         <p className="text-xs text-white/40 truncate mb-2">{userEmail}</p>
         <Link href="/" className="block text-xs text-white/50 hover:text-white mb-2 transition-colors">
-          ← View site
+          View site
         </Link>
         <button
           onClick={signOut}

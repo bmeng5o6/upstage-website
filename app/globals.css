@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-dm-sans);
+  /* Site default. Playfair is a display serif — use `font-body` on long
+     paragraphs if it reads heavy at small sizes. */
+  --font-body: var(--font-manrope);
   --color-navy: #1a1a2e;
   --color-navy-light: #2d2d52;
   --color-background: #ffffff;

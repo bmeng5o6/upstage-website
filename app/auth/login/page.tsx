@@ -52,7 +52,7 @@ function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoFocus
-              placeholder="you@upenn.edu"
+              placeholder="username@email.com"
               className="rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition"
             />
           </label>
@@ -78,13 +78,9 @@ function LoginForm() {
             disabled={loading}
             className="w-full py-3 rounded-full bg-navy text-white font-semibold text-sm hover:bg-navy-light transition-colors disabled:opacity-50"
           >
-            {loading ? "Signing in…" : "Sign in →"}
+            {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
-
-        <p className="text-center text-xs text-muted mt-6">
-          Only Upstage board members have admin access.
-        </p>
       </div>
     </div>
   );

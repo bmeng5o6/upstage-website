@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Hero from "@/components/Hero";
 import ShowCard from "@/components/ShowCard";
-import VideoCard from "@/components/VideoCard";
 import { createClient } from "@/lib/supabase/server";
 import { getSettings } from "@/lib/settings";
 import type { Show, Video } from "@/lib/types";

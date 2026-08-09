@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Playfair_Display, Manrope } from "next/font/google";
+
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
 });
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+})
 
 export const metadata: Metadata = {
   title: "Upstage A Cappella",
@@ -26,7 +35,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} h-full scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${playfair.variable} h-full scroll-smooth`}
+    >
       <body className="min-h-full flex flex-col antialiased">{children}</body>
     </html>
   );
