@@ -40,7 +40,12 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${playfair.variable} ${manrope.variable} h-full scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col antialiased">{children}</body>
+      <body className="min-h-full flex flex-col antialiased">
+        {children}
+        {/* Injects the tracking script and reports route changes. It renders
+            nothing and is inert outside Vercel, so local dev is unaffected. */}
+        <Analytics />
+      </body>
     </html>
   );
 }
