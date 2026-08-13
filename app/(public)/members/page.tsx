@@ -1,4 +1,5 @@
 import MemberCard from "@/components/MemberCard";
+import { ContentIn } from "@/components/Skeleton";
 import { createClient } from "@/lib/supabase/server";
 import type { Member } from "@/lib/types";
 
@@ -26,11 +27,13 @@ export default async function MembersPage() {
           We&apos;re a co-ed group of singers from all walks of campus life.
         </p>
         {members && members.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {members.map((member) => (
-              <MemberCard key={member.id} member={member} />
-            ))}
-          </div>
+          <ContentIn>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              {members.map((member) => (
+                <MemberCard key={member.id} member={member} />
+              ))}
+            </div>
+          </ContentIn>
         ) : (
           <p className="text-muted">Members coming soon!</p>
         )}

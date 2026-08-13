@@ -58,6 +58,25 @@ section[id] {
   }
 }
 
+/* Real content arriving in place of a skeleton.
+
+   A Suspense fallback is swapped out in a single frame, so without this the
+   data lands as a hard cut. Because the skeletons already mirror the real box
+   model, fading the incoming content up over that same footprint reads as the
+   placeholder resolving into focus rather than as two different screens. The
+   rise is small on purpose — anything taller looks like the page is still
+   moving after it has arrived. */
+@keyframes content-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);

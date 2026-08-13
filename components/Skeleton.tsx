@@ -102,6 +102,38 @@ export function FormSkeleton({ rows = 2 }: { rows?: number }) {
 }
 
 /**
+ * Wraps the real content that replaces a skeleton, fading it up over the same
+ * footprint instead of cutting to it.
+ *
+ * Pure CSS, so it works in a server component and costs no client JS: the
+ * animation runs when the element is inserted into the DOM, which is exactly
+ * the moment the Suspense fallback goes away.
+ *
+ * Wrap only the parts that were actually skeletons. Headings that render
+ * identically in both `loading.tsx` and the page never disappeared, so
+ * animating them makes stable text flicker for no reason.
+ */
+export function ContentIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  /** Stagger sibling blocks so a dense screen resolves in sequence. */
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`animate-[content-in_450ms_cubic-bezier(0.22,1,0.36,1)_both] motion-reduce:animate-none ${className}`}
+      style={delay ? { animationDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </div>
+  );
+}
+
+/**
  * Page-level wrapper. Screen readers get one polite announcement instead of a
  * pile of meaningless empty boxes.
  */

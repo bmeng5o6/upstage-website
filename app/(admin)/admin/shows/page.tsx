@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import ShowsManager from "@/components/admin/ShowsManager";
+import { ContentIn } from "@/components/Skeleton";
 import type { Show } from "@/lib/types";
 
 export const metadata = { title: "Shows — Upstage Admin" };
@@ -14,7 +15,9 @@ export default async function ShowsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-navy mb-8">Shows</h1>
-      <ShowsManager initialShows={shows ?? []} />
+      <ContentIn>
+        <ShowsManager initialShows={shows ?? []} />
+      </ContentIn>
     </div>
   );
 }

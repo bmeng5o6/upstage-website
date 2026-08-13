@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import ReservationsTable from "@/components/admin/ReservationsTable";
+import { ContentIn } from "@/components/Skeleton";
 import type { Reservation } from "@/lib/types";
 
 type ReservationRow = Reservation & {
@@ -25,10 +26,12 @@ export default async function ReservationsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-navy mb-8">Reservations</h1>
-      <ReservationsTable
-        initialReservations={reservations ?? []}
-        shows={shows ?? []}
-      />
+      <ContentIn>
+        <ReservationsTable
+          initialReservations={reservations ?? []}
+          shows={shows ?? []}
+        />
+      </ContentIn>
     </div>
   );
 }

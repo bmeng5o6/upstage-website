@@ -8,7 +8,13 @@ import type { Show } from "@/lib/types";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
-export default function TicketForm() {
+export default function TicketForm({
+  venmoHandle,
+}: {
+  // Passed down rather than fetched: this is a client component, and the
+  // handle is already loaded server-side by the page above it.
+  venmoHandle: string;
+}) {
   const params = useSearchParams();
   const preselected = params.get("show") ?? "";
 
@@ -237,7 +243,7 @@ export default function TicketForm() {
 
       <p className="text-xs text-center text-muted">
         Confirmed after payment via Venmo{" "}
-        <strong>@upstage-acappella</strong>{" "} or cash at the door.
+        <strong>{venmoHandle}</strong>{" "} or cash at the door.
         We&apos;ll follow up within 24 hours.
       </p>
     </form>

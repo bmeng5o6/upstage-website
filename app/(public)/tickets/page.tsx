@@ -1,12 +1,15 @@
 import { Suspense } from "react";
 import TicketForm from "@/components/TicketForm";
 import { FormSkeleton, LoadingRegion } from "@/components/Skeleton";
+import { getSettings } from "@/lib/settings";
 
 export const metadata = {
   title: "Get Tickets — Upstage A Cappella",
 };
 
-export default function TicketsPage() {
+export default async function TicketsPage() {
+  const s = await getSettings();
+
   return (
     <div className="pt-32 md:pt-40 pb-24 md:pb-32">
       <div className="max-w-2xl mx-auto px-6">
@@ -16,7 +19,7 @@ export default function TicketsPage() {
         <p className="text-gray-500 mb-10">
           Fill out the form and we&apos;ll confirm your reservation within 24
           hours. Payment via Venmo{" "}
-          <strong className="text-navy">@upstage-acappella</strong> or cash at
+          <strong className="text-navy">{s.venmo_handle}</strong> or cash at
           the door.
         </p>
         <Suspense
@@ -26,7 +29,7 @@ export default function TicketsPage() {
             </LoadingRegion>
           }
         >
-          <TicketForm />
+          <TicketForm venmoHandle={s.venmo_handle} />
         </Suspense>
       </div>
     </div>

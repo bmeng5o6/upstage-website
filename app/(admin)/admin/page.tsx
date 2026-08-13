@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { ContentIn } from "@/components/Skeleton";
 import type { Show, Reservation } from "@/lib/types";
 
 type ReservationWithShow = Reservation & {
@@ -41,8 +42,10 @@ export default async function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold text-navy mb-8">Dashboard</h1>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      {/* Stats. Fades in ahead of the table below it — the numbers are what an
+          admin is looking for first, so they should be what resolves first. */}
+      <ContentIn>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {[
           { label: "Upcoming Shows", value: upcomingShows.length },
           { label: "Total Tickets Reserved", value: totalTickets },
@@ -54,10 +57,12 @@ export default async function AdminDashboard() {
             <p className="text-sm text-muted mt-1">{stat.label}</p>
           </div>
         ))}
-      </div>
+        </div>
+      </ContentIn>
 
       {/* Recent reservations */}
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+      <ContentIn delay={90}>
+        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h2 className="font-semibold text-navy">Recent Reservations</h2>
           <a href="/admin/reservations" className="text-sm text-navy/60 hover:text-navy">
@@ -100,8 +105,9 @@ export default async function AdminDashboard() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
-      </div>
+      </ContentIn>
     </div>
   );
 }

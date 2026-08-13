@@ -57,12 +57,27 @@ export type Video = {
   display_order: number;
 };
 
+/**
+ * Every field here is copy that actually appears on the public site. If a field
+ * stops being rendered, delete it — a settings panel that accepts edits which
+ * change nothing is worse than no settings panel, because the admin has no way
+ * to tell the difference.
+ */
 export type SiteSettings = {
   id: number;
-  member_count: string;
-  show_count: string;
-  about_description: string;
   hero_tagline: string;
+  about_description: string;
+  /** Homepage show band: "Spring Show 2026:" then the italic title beneath it. */
+  current_show_heading: string;
+  current_show_title: string;
+  /** Blank line between paragraphs; rendered via toParagraphs(). */
+  current_show_description: string;
+  /** YouTube ID only, not the full URL. */
+  featured_video_id: string;
+  auditions_heading: string;
+  auditions_description: string;
+  auditions_page_intro: string;
+  auditions_what_to_expect: string;
   contact_email: string;
   venmo_handle: string;
   instagram_url: string;

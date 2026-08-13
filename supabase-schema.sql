@@ -241,13 +241,27 @@ set search_path = public;
 grant execute on function public.submit_interest to anon, authenticated;
 
 -- ─── Site Settings ───────────────────────────────────────────────────────────
+-- One row, id = 1. Every column here is copy that renders somewhere on the
+-- public site; if a column stops being rendered, drop it, or the settings panel
+-- starts accepting edits that silently do nothing.
 create table if not exists site_settings (
   id integer primary key default 1,
-  member_count text not null default 'XX',
-  show_count text not null default 'XX+',
-  about_description text not null default 'Upstage A Cappella is the University of Pennsylvania''s premier co-ed a cappella group. We''ve been bringing vocal harmony to stages across campus and beyond — blending contemporary pop, R&B, and original arrangements performed entirely with the human voice.',
-  hero_tagline text not null default 'All voice. All heart. No instruments needed.',
-  contact_email text not null default 'upstage@upenn.edu',
+  hero_tagline text not null default '',
+  about_description text not null default '',
+
+  -- Homepage "current show" band
+  current_show_heading text not null default '',
+  current_show_title text not null default '',
+  current_show_description text not null default '',
+  featured_video_id text not null default '',
+
+  -- Auditions: homepage call-to-action, then the /auditions page body
+  auditions_heading text not null default '',
+  auditions_description text not null default '',
+  auditions_page_intro text not null default '',
+  auditions_what_to_expect text not null default '',
+
+  contact_email text not null default 'upstage.upenn@gmail.com',
   venmo_handle text not null default '@upstage-acappella',
   instagram_url text not null default '',
   youtube_url text not null default '',
@@ -255,6 +269,24 @@ create table if not exists site_settings (
   spotify_url text not null default '',
   constraint site_settings_single_row check (id = 1)
 );
+
+-- Migration for databases created before these columns existed. Adding them is
+-- safe and idempotent; the app falls back to the copy in lib/settings.ts for any
+-- column that is still empty, so the site reads the same before and after.
+alter table site_settings add column if not exists current_show_heading text not null default '';
+alter table site_settings add column if not exists current_show_title text not null default '';
+alter table site_settings add column if not exists current_show_description text not null default '';
+alter table site_settings add column if not exists featured_video_id text not null default '';
+alter table site_settings add column if not exists auditions_heading text not null default '';
+alter table site_settings add column if not exists auditions_description text not null default '';
+alter table site_settings add column if not exists auditions_page_intro text not null default '';
+alter table site_settings add column if not exists auditions_what_to_expect text not null default '';
+
+-- member_count and show_count backed a stats display that no longer exists on
+-- any page. Dropping them is the only destructive statement in this file, so it
+-- is left commented — uncomment once you have confirmed nothing else reads them.
+-- alter table site_settings drop column if exists member_count;
+-- alter table site_settings drop column if exists show_count;
 
 -- Insert the default row (safe to re-run)
 insert into site_settings (id) values (1) on conflict (id) do nothing;

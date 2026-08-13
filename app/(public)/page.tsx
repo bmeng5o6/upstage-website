@@ -4,8 +4,8 @@ import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import ShowCard from "@/components/ShowCard";
 import { createClient } from "@/lib/supabase/server";
-import { getSettings } from "@/lib/settings";
-import type { Show, Video } from "@/lib/types";
+import { getSettings, toParagraphs } from "@/lib/settings";
+import type { Show } from "@/lib/types";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -16,14 +16,6 @@ export default async function Home() {
     getSettings(),
   ]);
   const shows = showsResult.data as Show[] | null;
-  const video: Video = {
-    id: "featured",
-    youtube_id: "56sSdRaITE8",
-    title: "Spring 26 Show Video",
-    show_name: "Bet On It!",
-    year: 2026,
-    display_order: 1
-  }
 
   return (
     <>
@@ -64,23 +56,27 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <Reveal className="lg:order-last">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-navy leading-tight mb-6">
-              Spring Show 2026:
-              <span className="block italic">Bet On It!</span>
+              {s.current_show_heading}
+              <span className="block italic">{s.current_show_title}</span>
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              This semester, we performed songs from The Greatest Showman, Phantom of the Opera, The Hunger Games, and more.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Listen to an arrangement of ours here, or check out more on our YouTube channel!
-            </p>
+            {toParagraphs(s.current_show_description).map((p, i, all) => (
+              <p
+                key={i}
+                className={`text-gray-600 leading-relaxed ${
+                  i < all.length - 1 ? "mb-4" : ""
+                }`}
+              >
+                {p}
+              </p>
+            ))}
           </Reveal>
 
           <Reveal delay={80}>
             <div className="relative w-full max-w-xl mx-auto lg:max-w-none rounded-2xl overflow-hidden aspect-video bg-white border border-gray-200 shadow-sm">
               <iframe
                 className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${video.youtube_id}`}
-                title={`${video.title} — ${video.show_name}`}
+                src={`https://www.youtube.com/embed/${s.featured_video_id}`}
+                title={`${s.current_show_heading} ${s.current_show_title}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
@@ -95,12 +91,10 @@ export default async function Home() {
       <section className="py-24 md:py-32 px-6">
         <Reveal className="max-w-3xl mx-auto text-center">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-navy leading-tight mb-6">
-            Join us!
+            {s.auditions_heading}
           </h2>
           <p className="text-gray-600 leading-relaxed mb-10">
-            We hold auditions at the start of every semester. No experience
-            with a cappella required, just bring a song you love! Drop us
-            your email for further information on the process!
+            {s.auditions_description}
           </p>
           <Link
             href="/auditions"

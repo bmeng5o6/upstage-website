@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import AuditionInterests from "@/components/admin/AuditionInterests";
+import { ContentIn } from "@/components/Skeleton";
 import type { InterestSignup } from "@/lib/types";
 
 export const metadata = { title: "Audition Interests — Upstage Admin" };
@@ -23,7 +24,9 @@ export default async function InterestedPage() {
         Everyone who asked to hear about auditions. Export the opted-in list as
         CSV to send a mailout.
       </p>
-      <AuditionInterests initialSignups={signups ?? []} />
+      <ContentIn>
+        <AuditionInterests initialSignups={signups ?? []} />
+      </ContentIn>
     </div>
   );
 }

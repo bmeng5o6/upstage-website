@@ -1,4 +1,5 @@
 import VideoCard from "@/components/VideoCard";
+import { ContentIn } from "@/components/Skeleton";
 import { createClient } from "@/lib/supabase/server";
 import type { Video } from "@/lib/types";
 
@@ -27,11 +28,13 @@ export default async function MediaPage() {
           Performance Videos
         </h2>
         {videos && videos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {videos.map((v) => (
-              <VideoCard key={v.id} video={v} />
-            ))}
-          </div>
+          <ContentIn>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+              {videos.map((v) => (
+                <VideoCard key={v.id} video={v} />
+              ))}
+            </div>
+          </ContentIn>
         ) : (
           <p className="text-muted mb-16">Videos coming soon!</p>
         )}
