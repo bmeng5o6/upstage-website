@@ -118,12 +118,11 @@ export default function TicketForm({
   if (formState === "success") {
     return (
       <div className="text-center py-16">
-        <div className="text-5xl mb-4">✓</div>
         <h3 className="text-2xl font-bold text-navy mb-2">
           You&apos;re on the list!
         </h3>
         <p className="text-muted">
-          Check your inbox for a confirmation. We&apos;ll see you at the show.
+          Thank you so much for coming! We&apos;ll see you at the show!
         </p>
         <p className="text-sm text-muted mt-4">
           Questions? Email{" "}
@@ -238,13 +237,12 @@ export default function TicketForm({
           ? "Sold Out"
           : formState === "submitting"
           ? "Submitting…"
-          : "Reserve Tickets →"}
+          : "Reserve Tickets"}
       </button>
 
       <p className="text-xs text-center text-muted">
         Confirmed after payment via Venmo{" "}
         <strong>{venmoHandle}</strong>{" "} or cash at the door.
-        We&apos;ll follow up within 24 hours.
       </p>
     </form>
   );

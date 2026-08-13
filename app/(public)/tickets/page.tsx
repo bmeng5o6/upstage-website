@@ -17,8 +17,7 @@ export default async function TicketsPage() {
           See us live!
         </h1>
         <p className="text-gray-500 mb-10">
-          Fill out the form and we&apos;ll confirm your reservation within 24
-          hours. Payment via Venmo{" "}
+          Fill out the form to reserve your tickets now! Payment via Venmo{" "}
           <strong className="text-navy">{s.venmo_handle}</strong> or cash at
           the door.
         </p>

@@ -49,7 +49,6 @@ export default function AuditionForm() {
   if (formState === "success") {
     return (
       <div className="text-center py-16">
-        <div className="text-5xl mb-4">✓</div>
         <h3 className="font-display text-2xl font-bold text-navy mb-2">
           You&apos;re on the list!
         </h3>
