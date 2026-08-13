@@ -14,8 +14,6 @@ export default function AuditionForm() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const supabase = createClient();
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormState("submitting");
@@ -23,6 +21,13 @@ export default function AuditionForm() {
 
     const form = e.currentTarget;
     const fd = new FormData(form);
+
+    // Built here rather than in the component body on purpose. This page has no
+    // dynamic API in it, so Next prerenders it — and prerendering runs client
+    // components on the server, where createBrowserClient() throws if the
+    // Supabase env vars are absent from the build environment. Nothing needs a
+    // client until someone actually submits, so nothing builds one until then.
+    const supabase = createClient();
 
     // Writes go through the RPC rather than a table insert: RLS blocks
     // anonymous inserts on interest_signups on purpose, since the anon key is
