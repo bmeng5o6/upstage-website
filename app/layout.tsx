@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display, Manrope } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "./globals.css";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         {/* Injects the tracking script and reports route changes. It renders
             nothing and is inert outside Vercel, so local dev is unaffected. */}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
