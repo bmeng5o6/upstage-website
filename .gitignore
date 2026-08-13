@@ -36,6 +36,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Raw video sources. Git keeps every version of a binary forever, so one
+# accidentally committed camera master is in every clone from then on. Only the
+# encoded hero files belong in the repo.
+/public/video/*
+!/public/video/hero.mp4
+!/public/video/hero.webm
+!/public/video/hero-poster.jpg
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

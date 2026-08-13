@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/shows", label: "Shows" },
+  { href: "/admin/interested", label: "Audition Interests"},
   { href: "/admin/reservations", label: "Reservations" },
   { href: "/admin/members", label: "Members" },
   { href: "/admin/settings", label: "Settings" },

@@ -14,7 +14,7 @@ export default function MemberCard({ member }: { member: Member }) {
     PART_COLORS[member.part] ?? "bg-gray-100 text-gray-600";
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="group bg-white rounded-2xl border border-gray-200 overflow-hidden transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       {/* Photo */}
       <div className="aspect-[4/5] bg-surface relative overflow-hidden">
         {member.photo_url ? (
@@ -22,7 +22,7 @@ export default function MemberCard({ member }: { member: Member }) {
             src={member.photo_url}
             alt={member.name}
             fill
-            className="object-cover object-top"
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-4xl text-gray-300">

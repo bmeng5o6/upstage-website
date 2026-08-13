@@ -31,7 +31,7 @@ export default function ShowCard({
 
   return (
     <div
-      className={`rounded-2xl border p-6 flex flex-col gap-4 ${
+      className={`rounded-2xl border p-6 flex flex-col gap-4 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
         featured
           ? "border-navy bg-navy text-white"
           : "border-gray-200 bg-white text-navy"

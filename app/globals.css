@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Site default. Playfair is a display serif — use `font-body` on long
-     paragraphs if it reads heavy at small sizes. */
-  --font-body: var(--font-manrope);
+  /* Manrope is the body face and the site default — overriding --font-sans is
+     what makes it the default, since Tailwind's preflight resolves the base
+     font-family from it. Playfair is a display serif reserved for headings via
+     `font-display`; it reads heavy at paragraph sizes, so don't set it on body.
+     `inline` matters here: these reference the next/font vars defined on <html>,
+     which live outside the theme layer. */
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-playfair);
   --color-navy: #1a1a2e;
   --color-navy-light: #2d2d52;
   --color-background: #ffffff;
@@ -45,7 +50,18 @@ section[id] {
   }
 }
 
+/* Skeleton shimmer. A moving highlight reads as "loading" in a way a static
+   grey block doesn't; animate-pulse alone looks like a broken layout. */
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);
+  /* Belt and braces alongside --font-sans above: this does not depend on how
+     Tailwind's preflight resolves --default-font-family. */
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }

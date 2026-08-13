@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${playfair.variable} h-full scroll-smooth`}
+      className={`${dmSans.variable} ${playfair.variable} ${manrope.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full flex flex-col antialiased">{children}</body>
     </html>

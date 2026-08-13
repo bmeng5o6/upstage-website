@@ -23,6 +23,19 @@ export type Reservation = {
   created_at: string;
 };
 
+export type InterestSignup = {
+  id: string;
+  name: string;
+  email: string;
+  grad_year: string | null;
+  voice_part: string | null;
+  notes: string | null;
+  subscribed: boolean;
+  /** Null until pushed to an email provider; nothing sets it yet. */
+  synced_at: string | null;
+  created_at: string;
+};
+
 export type Member = {
   id: string;
   name: string;
@@ -69,6 +82,7 @@ export type Database = {
     Tables: {
       shows: { Row: Show; Insert: Omit<Show, "id" | "created_at">; Update: Partial<Omit<Show, "id" | "created_at">> };
       reservations: { Row: Reservation; Insert: Omit<Reservation, "id" | "created_at">; Update: Partial<Omit<Reservation, "id" | "created_at">> };
+      interest_signups: { Row: InterestSignup; Insert: Omit<InterestSignup, "id" | "created_at">; Update: Partial<Omit<InterestSignup, "id" | "created_at">> };
       members: { Row: Member; Insert: Omit<Member, "id" | "created_at">; Update: Partial<Omit<Member, "id" | "created_at">> };
       videos: { Row: Video; Insert: Omit<Video, "id">; Update: Partial<Omit<Video, "id">> };
       profiles: { Row: Profile; Insert: Profile; Update: Partial<Profile> };

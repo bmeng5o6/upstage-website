@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { Skeleton } from "@/components/Skeleton";
 import type { Show } from "@/lib/types";
 
 type FormState = "idle" | "submitting" | "success" | "error";
@@ -12,6 +13,10 @@ export default function TicketForm() {
   const preselected = params.get("show") ?? "";
 
   const [shows, setShows] = useState<Show[]>([]);
+  // The show list arrives on a client round trip after the form has already
+  // painted, so the dropdown is briefly empty. Track it and show a placeholder
+  // rather than an interactive-looking select with nothing in it.
+  const [showsLoading, setShowsLoading] = useState(true);
   const [selectedShowId, setSelectedShowId] = useState(preselected);
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
   const [formState, setFormState] = useState<FormState>("idle");
@@ -29,6 +34,7 @@ export default function TicketForm() {
       .order("date", { ascending: true })
       .then(({ data }) => {
         if (data) setShows(data);
+        setShowsLoading(false);
       });
   }, []);
 
@@ -157,20 +163,26 @@ export default function TicketForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-navy">Show</span>
-          <select
-            name="show"
-            required
-            value={selectedShowId}
-            onChange={(e) => setSelectedShowId(e.target.value)}
-            className="rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition appearance-none bg-white"
-          >
-            <option value="" disabled>Select a show…</option>
-            {shows.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.title} — {s.time}
+          {showsLoading ? (
+            <Skeleton className="h-[46px] w-full rounded-xl" />
+          ) : (
+            <select
+              name="show"
+              required
+              value={selectedShowId}
+              onChange={(e) => setSelectedShowId(e.target.value)}
+              className="rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition appearance-none bg-white"
+            >
+              <option value="" disabled>
+                {shows.length === 0 ? "No shows on sale right now" : "Select a show…"}
               </option>
-            ))}
-          </select>
+              {shows.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title} — {s.time}
+                </option>
+              ))}
+            </select>
+          )}
           {remaining !== null && (
             <span className={`text-xs font-medium ${remaining <= 5 ? "text-red-500" : remaining <= 20 ? "text-yellow-600" : "text-green-600"}`}>
               {remaining} seat{remaining === 1 ? "" : "s"} remaining

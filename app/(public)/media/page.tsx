@@ -19,7 +19,7 @@ export default async function MediaPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-muted mb-4">
           Media
         </p>
-        <h1 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-12">
+        <h1 className="font-display text-4xl md:text-5xl font-bold text-navy leading-tight mb-12">
           Watch &amp; listen.
         </h1>
 

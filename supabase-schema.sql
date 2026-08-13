@@ -157,6 +157,89 @@ create policy "profiles_self_read" on profiles for select using (auth.uid() = id
 -- `profiles` that queries `profiles` is infinite recursion (42P17); role
 -- changes are done from the Supabase dashboard instead.
 
+-- ─── Audition interest signups ───────────────────────────────────────────────
+create table if not exists interest_signups (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  email text not null,
+  grad_year text,
+  voice_part text,
+  notes text,
+  -- Consent for the mailing list, separate from the signup itself. Asking for
+  -- audition info is not the same as asking to hear from us forever.
+  subscribed boolean not null default true,
+  -- Null until the address has been pushed to an email provider. Kept even
+  -- with no provider wired up yet, so the sync can be added later without a
+  -- migration and without losing track of which rows predate it.
+  synced_at timestamptz,
+  created_at timestamptz default now()
+);
+
+-- One row per person. A resubmit updates rather than piling up duplicates,
+-- which matters because people fill these in twice when they aren't sure it
+-- worked. Lower() so Bob@ and bob@ collapse together.
+create unique index if not exists interest_signups_email_uniq
+  on interest_signups (lower(email));
+
+alter table interest_signups enable row level security;
+
+-- Same reasoning as reservations: no public insert policy. The anon key ships
+-- to every browser, so writes go through submit_interest() below instead.
+drop policy if exists "interest_admin_read" on interest_signups;
+drop policy if exists "interest_admin_delete" on interest_signups;
+create policy "interest_admin_read" on interest_signups for select using (is_admin());
+create policy "interest_admin_delete" on interest_signups for delete using (is_admin());
+
+-- The only supported way to record an interest signup.
+--
+-- security definer is what lets an anonymous visitor write a row the RLS
+-- policies above would otherwise refuse. set search_path is mandatory
+-- alongside it, or the caller controls how unqualified names resolve.
+create or replace function public.submit_interest(
+  p_name text,
+  p_email text,
+  p_grad_year text,
+  p_voice_part text,
+  p_notes text,
+  p_subscribed boolean
+)
+returns public.interest_signups
+as $function$
+declare
+  v_row public.interest_signups;
+begin
+  if p_name is null or btrim(p_name) = '' then
+    raise exception 'name is required';
+  end if;
+  if p_email is null or p_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' then
+    raise exception 'a valid email is required';
+  end if;
+
+  insert into public.interest_signups
+    (name, email, grad_year, voice_part, notes, subscribed)
+  values
+    (btrim(p_name), lower(btrim(p_email)), p_grad_year, p_voice_part,
+     p_notes, coalesce(p_subscribed, true))
+  -- Second signup wins: someone resubmitting is usually correcting something.
+  -- synced_at resets so a changed address gets pushed to the provider again.
+  on conflict (lower(email)) do update set
+    name       = excluded.name,
+    grad_year  = excluded.grad_year,
+    voice_part = excluded.voice_part,
+    notes      = excluded.notes,
+    subscribed = excluded.subscribed,
+    synced_at  = null
+  returning * into v_row;
+
+  return v_row;
+end;
+$function$
+language plpgsql
+security definer
+set search_path = public;
+
+grant execute on function public.submit_interest to anon, authenticated;
+
 -- ─── Site Settings ───────────────────────────────────────────────────────────
 create table if not exists site_settings (
   id integer primary key default 1,
